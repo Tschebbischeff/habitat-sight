@@ -12,11 +12,10 @@ volumes:
   habitat-config:
   mediamtx-config:
 
-
-# No Secrets, Syntax Stub:
-# secrets:
-#   SECRET_NAME:
-#     file: ${SECRETS_DIR}/SECRET_NAME
+    # No Secrets, Syntax Stub:
+    # secrets:
+    #   SECRET_NAME:
+    #     file: ${SECRETS_DIR}/SECRET_NAME
 
 
 services:
@@ -70,7 +69,6 @@ services:
       - 'c 81:* rmw'
     networks:
       internal:
-        ipv4_address: '172.18.0.14'
     healthcheck:
       test: [ "CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9997/v3/info" ]
       interval: 30s
