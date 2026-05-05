@@ -1,0 +1,82 @@
+name: ${APP_NAME_HOST}
+
+networks:
+  internal:
+    name: ${APP_NAME_HOST}_internal
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+volumes:
+  habitat-config:
+  mediamtx-config:
+
+
+# No Secrets, Syntax Stub:
+# secrets:
+#   SECRET_NAME:
+#     file: ${SECRETS_DIR}/SECRET_NAME
+
+
+services:
+
+  habitat-config-sight:
+    image: tschebbischeff/habitat-config:latest
+    container_name: ${APP_NAME_HOST}_habitat-config-sight
+    restart: no
+    env_file:
+      - ./.env
+      - path: ${ENV_DIR}/.env
+        required: false
+      - path: ${ENV_DIR}/habitat-config.env
+        required: false
+    environment:
+      MODULE_NAME: "sight"
+    networks:
+      internal:
+    volumes:
+      - habitat-config:/habitat-config/orchestration
+      - ./habitat-config:/habitat-config/source:ro
+      - mediamtx-config:/habitat-config/target/mediamtx
+
+  mediamtx:
+    image: bluenviron/mediamtx:latest-ffmpeg
+    container_name: ${APP_NAME_HOST}_mediamtx
+    restart: always
+    expose:
+      - '8554' # RTSP
+      - '1935' # RTMP
+      - '8888' # HLS
+      - '8889' # WebRTC
+      - '8189/udp' # WebRTC local UDP
+      - '8890/udp' # SRT
+      - '9997' # API
+    env_file:
+      - ./.env
+      - path: ${ENV_DIR}/.env
+        required: false
+      - path: ${ENV_DIR}/mediamtx.env
+        required: false
+    environment:
+      MTX_CONFIG_PATH: '/config/mediamtx.yml'
+      MTX_RTSPTRANSPORTS: 'tcp'
+      MTX_WEBRTCADDITIONALHOSTS: 'mediamtx-webrtc.${APP_HOST}'
+    volumes:
+      - mediamtx-config:/config
+      - /dev:/dev
+      - /run/udev:/run/udev:ro
+    device_cgroup_rules:
+      - 'c 81:* rmw'
+    networks:
+      internal:
+        ipv4_address: '172.18.0.14'
+    healthcheck:
+      test: [ "CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9997/v3/info" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+    depends_on:
+      habitat-config-sight:
+        condition: service_completed_successfully

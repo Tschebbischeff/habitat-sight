@@ -1,0 +1,5 @@
+# Documentation: https://doc.traefik.io/traefik/reference/install-configuration/configuration-options/
+
+entryPoints:
+  mediamtx-webrtc-udp:
+    address: ":8189/udp"
