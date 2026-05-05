@@ -40,7 +40,8 @@ services:
       - mediamtx-config:/habitat-config/target/mediamtx
 
   mediamtx:
-    image: bluenviron/mediamtx:latest-ffmpeg
+    build:
+      context: ./mediamtx
     container_name: ${APP_NAME_HOST}_mediamtx
     restart: always
     expose:
