@@ -1,0 +1,5 @@
+access_control:
+  rules:
+    - domain: 'mediamtx.{{ env "APP_HOST" }}'
+      subject: 'group:mediamtx_users'
+      policy: one_factor
