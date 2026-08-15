@@ -24,6 +24,7 @@ You can check out all officially available modules [here](https://github.com/Tsc
  Publish and Subscribe to video feeds via multiple connection protocols
 
 ### Planned
+
  - **Extended Configuration** \
  Definition of custom video sources
 
