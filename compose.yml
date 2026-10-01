@@ -42,6 +42,8 @@ services:
   mediamtx:
     build:
       context: ./mediamtx
+      args:
+        MEDIAMTX_VERSION: "${MEDIAMTX_VERSION:?}"
     container_name: ${APP_NAME_HOST}_mediamtx
     restart: unless-stopped
     expose:

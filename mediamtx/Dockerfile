@@ -1,4 +1,5 @@
-FROM bluenviron/mediamtx:latest-ffmpeg AS mediamtx
+ARG MEDIAMTX_VERSION
+FROM bluenviron/mediamtx:${MEDIAMTX_VERSION} AS mediamtx
 FROM alpine:latest
 
 COPY --from=mediamtx /mediamtx /

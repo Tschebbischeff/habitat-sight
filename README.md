@@ -99,13 +99,9 @@ SECRETS_DIR="/run/secrets"
 > [!TIP]
 > Some environment variables are used commonly throughout all modules, you can check the list [here](https://github.com/Tschebbischeff/habitat#environment-variables-for-modules).
 
-*This module does not require any additional environment variables.*
-
-<!--
 | Name | Description | Example | Default |
 | :-- | :-- | :-- | :-- |
-| `EXAMPLE` | An example description. | `some-value` | *Empty* |
--->
+| `MEDIAMTX_VERSION` | Tag for the [MediaMTX docker image](https://hub.docker.com/r/bluenviron/mediamtx). | `latest-ffmpeg-rpi` | `latest-ffmpeg` |
 
 ### Secrets
 
