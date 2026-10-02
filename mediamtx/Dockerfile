@@ -1,5 +1,5 @@
 ARG MEDIAMTX_VERSION
-FROM bluenviron/mediamtx:${MEDIAMTX_VERSION} AS mediamtx
+FROM bluenviron/mediamtx:${MEDIAMTX_VERSION:?} AS mediamtx
 FROM alpine:latest
 
 COPY --from=mediamtx /mediamtx /
